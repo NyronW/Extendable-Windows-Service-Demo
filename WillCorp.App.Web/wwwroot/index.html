@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="bootstrap/bootstrap-grid.min.css" rel="stylesheet" />
+    <link href="main.css" rel="stylesheet" />
+
+    <title>ServiceHost Web Portal</title>
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-md fixed-top navbar-light" style="background-color: #563d7c;">
+        <a class="navbar-brand" href="/">
+            <img src="img/logo.png" height="40" class="d-inline-block align-top" alt="">
+        </a>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto"></ul>
+            <form method="GET" action="/" class="form-inline mt-2 mt-md-0">
+                <input id="searchTerm" name="searchTerm" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+
+    <main role="main" class="container">
+        ServiceHost Web Portal
+    </main>
+
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Confirm</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="modal-text"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn" id="modal-btn-yes">Yes, I'm sure</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="jquery/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

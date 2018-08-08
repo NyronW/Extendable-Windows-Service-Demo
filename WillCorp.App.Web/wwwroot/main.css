@@ -1,0 +1,16 @@
+﻿/* Show it is fixed to the top */
+body {
+    min-height: 75rem;
+    padding-top: 4.5rem;
+}
+
+.navbar-nav .nav-link {
+    padding-right: .5rem;
+    padding-left: .5rem;
+    color: #cbbde2 !important;
+}
+
+.navbar-nav .nav-link.active, .navbar-nav .nav-link:hover {
+    color: #fff !important;
+    background-color: transparent;
+}
