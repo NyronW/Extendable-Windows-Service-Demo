@@ -31,6 +31,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WillCorp.App.Web", "WillCor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WillCorp.Services.FileSystem", "WillCorp.Services.FileSystem\WillCorp.Services.FileSystem.csproj", "{9404C0C3-430F-4179-A75B-535E6E6710C2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EmailTemplates", "EmailTemplates", "{0663F1A9-AC74-4373-B2A6-2B92A1B2A7CD}"
+	ProjectSection(SolutionItems) = preProject
+		email.templates\sample.html = email.templates\sample.html
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

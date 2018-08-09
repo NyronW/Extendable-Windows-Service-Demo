@@ -17,11 +17,15 @@ namespace WillCorp.App.Importer
 
         public DirectoryMonitor(ILogger logger, IConfigurationRepository configuration, IEnumerable<FileTransformationBase> transformations, string directory)
         {
+            if (string.IsNullOrEmpty(directory) || !Directory.Exists(directory))
+            {
+                logger.Warn("Invalid import directory");
+                return;
+            }
+
             _logger = logger;
             _transformations = transformations;
-            _directory = directory;
-
-            if (string.IsNullOrEmpty(_directory)) return;
+            _directory = Path.GetFullPath(directory);
 
             _watcher = new FileSystemWatcher(_directory, "*.txt")
             {

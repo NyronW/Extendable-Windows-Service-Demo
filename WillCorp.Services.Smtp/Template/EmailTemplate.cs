@@ -20,7 +20,8 @@ namespace WillCorp.Services.Smtp.Template
 
             var cfg = configuration.GetConfigurationValue("smtp:template.folder","");
             if (string.IsNullOrEmpty(cfg)) cfg = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "EmailTemplates");
-            _templatePath = cfg;
+
+            _templatePath = Path.GetFullPath(cfg);
         }
 
         public string Generate<TModel>(string templateName, TModel model)
@@ -34,13 +35,13 @@ namespace WillCorp.Services.Smtp.Template
                 }
 
                 var path = Path.Combine(_templatePath, templateName + ".html");
-                if (!System.IO.File.Exists(path))
+                if (!File.Exists(path))
                 {
                     _logger.Warn("Email template {template} not found. The following directories were checked: {templatePath}", templateName, _templatePath);
                     return string.Empty;
                 }
 
-                var source = System.IO.File.ReadAllText(path);
+                var source = File.ReadAllText(path);
                 if (string.IsNullOrEmpty(source))
                 {
                     _logger.Warn("Email template {template} is empty", templateName);

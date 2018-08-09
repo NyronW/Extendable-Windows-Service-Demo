@@ -15,10 +15,10 @@ namespace WillCorp.HostService.StructureMap
         {
             try
             {
-                var pluginsDirectory = ConfigurationManager.AppSettings["app:plugin-path"];
-                if (string.IsNullOrEmpty(pluginsDirectory)) return;
+                var cfg = ConfigurationManager.AppSettings["app:plugin-path"];
+                if (string.IsNullOrWhiteSpace(cfg)) return;
 
-                if (pluginsDirectory.StartsWith(@".\")) pluginsDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, pluginsDirectory.Replace(@".\", ""));
+                var pluginsDirectory = Path.GetFullPath(cfg);
                 if (!Directory.Exists(pluginsDirectory)) return;
 
                 scanner.AssembliesFromPath(pluginsDirectory);
