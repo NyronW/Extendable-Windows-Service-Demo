@@ -91,6 +91,8 @@
   <ItemGroup>
     <Compile Include="Api\ActionResults\HttpActionResult.cs" />
     <Compile Include="Api\Controllers\BaseController.cs" />
+    <Compile Include="Api\Controllers\FilesController.cs" />
+    <Compile Include="Api\Controllers\GreetingsController.cs" />
     <Compile Include="Api\Handlers\GlobalExceptionHandler.cs" />
     <Compile Include="Api\Models\Envelope.cs" />
     <Compile Include="Middleware\GlobalExceptionMiddleware.cs" />
@@ -135,6 +137,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\img\" />
+    <Folder Include="wwwroot\knockout\" />
+    <Folder Include="wwwroot\signalr\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -4,6 +4,14 @@ using System.Diagnostics;
 
 namespace WillCorp
 {
+    /// <summary>
+    /// This class was designed to perform simple domain
+    /// validation. its basocally an abstraction over
+    /// the "if not valid then throw an exception" coding pattern
+    /// it will throw a custonm exception, which error handling code 
+    /// can catch and handle as needed.
+    /// Checkout https://enterprisecraftsmanship.com/2015/02/14/code-contracts-vs-input-validation/ for more details
+    /// </summary>
     public static class Contracts
     {
         [DebuggerStepThrough]

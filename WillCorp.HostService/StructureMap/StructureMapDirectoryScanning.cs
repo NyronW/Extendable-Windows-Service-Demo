@@ -9,6 +9,12 @@ using System.Reflection;
 
 namespace WillCorp.HostService.StructureMap
 {
+    /// <summary>
+    /// Contains the extension method for StructureMaps' IAssemblyScanner
+    /// which will scan all libraries is a specific folder and load all class
+    /// that implments the IServicePlugin interface and registers them within
+    /// StructureMap.
+    /// </summary>
     public static class StructureMapDirectoryScanning
     {
         public static void ScanPluginDirectory(this IAssemblyScanner scanner, Registry registry)

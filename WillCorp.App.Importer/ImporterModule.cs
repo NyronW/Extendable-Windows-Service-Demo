@@ -18,7 +18,7 @@ namespace WillCorp.App.Importer
             _logger = logger;
             _configuration = configuration;
 
-            _directory = configuration.GetConfigurationValue("import:pickup-directory", string.Empty);
+            _directory = configuration.GetConfigurationValue(ConfigurationKeys.ImportDirectory, string.Empty);
             _directoryMonitor = new DirectoryMonitor(_logger, _configuration, transformations, _directory);
         }
 

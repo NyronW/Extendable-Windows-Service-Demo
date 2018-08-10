@@ -48,6 +48,7 @@
     <Compile Include="CronTriggerfactory.cs" />
     <Compile Include="Jobs\JobBase.cs" />
     <Compile Include="Jobs\JobGroupIds.cs" />
+    <Compile Include="Jobs\PurgeImportFolderJob.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

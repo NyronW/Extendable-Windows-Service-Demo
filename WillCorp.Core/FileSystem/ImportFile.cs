@@ -4,6 +4,9 @@ using System.Text;
 
 namespace WillCorp.Core.FileSystem
 {
+    /// <summary>
+    /// Represents a file that was recieved by the importer module
+    /// </summary>
     public class ImportFile
     {
         private ImportFile(string filePath, string content)
@@ -23,6 +26,11 @@ namespace WillCorp.Core.FileSystem
         public bool IsValid => !string.IsNullOrEmpty(FilePath);
         public bool IsEmpty => !string.IsNullOrEmpty(Content);
 
+        public void Save()
+        {
+            if (!IsValid) return;
+            File.WriteAllText(FilePath, Content);
+        }
 
         public static ImportFile Create(string filePath, string content)
         {

@@ -6,6 +6,11 @@ using WillCorp.App;
 
 namespace WillCorp.HostService
 {
+    /// <summary>
+    /// This class methods are called when the windows service is started and/or stopped
+    /// It receices a collection of service modules which it will start when the service is started
+    /// and stop those modules when the service is stopped
+    /// </summary>
     public class ServiceHost
     {
         private readonly ILogger _logger;

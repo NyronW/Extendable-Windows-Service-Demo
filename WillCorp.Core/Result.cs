@@ -1,9 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace WillCorp
+﻿namespace WillCorp
 {
+    /// <summary>
+    /// This class is used to control program flow
+    /// by providing a way on indifying if a method
+    /// call was successfful
+    /// check out https://enterprisecraftsmanship.com/2017/03/13/error-handling-exception-or-result/
+    /// </summary>
     public class Result
     {
         public bool Success { get; }

@@ -2,6 +2,11 @@
 
 namespace WillCorp.Core.FileSystem
 {
+    /// <summary>
+    /// All inheriting class will be used to perform some
+    /// sort of transformation on files recived by the directory monitor class
+    /// in the importer module.
+    /// </summary>
     public abstract class FileTransformationBase
     {
         public virtual string OutputFolder { get; protected set; }
@@ -35,11 +40,11 @@ namespace WillCorp.Core.FileSystem
 
             if (!string.IsNullOrWhiteSpace(OutputFolder)) folder = OutputFolder;
 
-            var newFile = Path.Combine(folder, file.Name);
+            var path = Path.Combine(folder, file.Name);
+            var next = ImportFile.Create(path, file.Content);
+            next.Save();
 
-            File.WriteAllText(newFile, file.Content);
-
-            return newFile;
+            return path;
         }
 
 

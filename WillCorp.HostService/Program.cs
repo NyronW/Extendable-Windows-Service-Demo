@@ -68,7 +68,9 @@ namespace WillCorp.HostService
         }
 
         /// <summary>
-        /// Register services here
+        /// Register services here; the Standarf container
+        /// will initiate the loading of all plugins and service
+        /// modules
         /// </summary>
         private static IContainer ConfigureContainer()
         {

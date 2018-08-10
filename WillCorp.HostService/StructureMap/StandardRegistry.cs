@@ -1,7 +1,4 @@
 ﻿using StructureMap;
-using WillCorp.App;
-using WillCorp.Configuration;
-using WillCorp.Logging;
 
 namespace WillCorp.HostService.StructureMap
 {

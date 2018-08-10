@@ -40,7 +40,7 @@ namespace WillCorp.Services.Scheduling
                     .WithMisfireHandlingInstructionFireAndProceed())
                 .Build();
 
-            return Result<ITrigger>.Ok(trigger);
+            return Result.Ok(trigger);
         }
 
         public bool IsSchedule(string jobId)

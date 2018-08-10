@@ -17,7 +17,7 @@ namespace WillCorp.App.Importer
 
         public DirectoryMonitor(ILogger logger, IConfigurationRepository configuration, IEnumerable<FileTransformationBase> transformations, string directory)
         {
-            if (string.IsNullOrEmpty(directory) || !Directory.Exists(directory))
+            if (string.IsNullOrEmpty(directory) || !Directory.Exists(Path.GetFullPath(directory)))
             {
                 logger.Warn("Invalid import directory");
                 return;

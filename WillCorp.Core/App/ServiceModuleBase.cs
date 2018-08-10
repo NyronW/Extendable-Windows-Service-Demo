@@ -1,5 +1,10 @@
 ﻿namespace WillCorp.App
 {
+    /// <summary>
+    /// Provides a basic implememtation of the IServiceModule interface
+    /// so that inheriting classes don't need to include the code to update
+    /// its' status propery explicity when they are started or stopped
+    /// </summary>
     public abstract class ServiceModuleBase : IServiceModule
     {
         protected ServiceModuleStatus _status = ServiceModuleStatus.Stopped;

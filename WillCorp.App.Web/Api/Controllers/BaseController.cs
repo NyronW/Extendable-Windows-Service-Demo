@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Http;
 using WillCorp.App.Web.Api.ActionResults;
 using WillCorp.App.Web.Api.Models;
