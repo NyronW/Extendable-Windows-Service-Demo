@@ -35,6 +35,7 @@ namespace WillCorp.App.Web.Api.Handlers
                 throw new ArgumentNullException(nameof(context));
             }
 
+            //Replace with friendly error message.
             context.Result = new HttpActionResult<Envelope>(HttpStatusCode.InternalServerError, Envelope.Error(context.Exception.Message));
         }
 

@@ -67,7 +67,7 @@ namespace WillCorp.App.Web
 
             appBuilder.Map("/signalr", map =>
             {
-                var hubConfiguration = new HubConfiguration
+                var config = new HubConfiguration
                 {
                     // You can enable JSONP by uncommenting line below.
                     // JSONP requests are insecure but some older browsers (and some
@@ -78,7 +78,7 @@ namespace WillCorp.App.Web
                     EnableJSONP = true
                 };
 
-                hubConfiguration.UseStructureMap<DefaultRegistry>();
+                config.UseStructureMap<DefaultRegistry>();
 
                 // camelcase contract resolver
                 var serializer = JsonSerializer.Create(new JsonSerializerSettings
@@ -86,12 +86,12 @@ namespace WillCorp.App.Web
                     ContractResolver = new SignalRContractResolver()
                 });
 
-                hubConfiguration.Resolver.Register(typeof(JsonSerializer), () => serializer);
+                config.Resolver.Register(typeof(JsonSerializer), () => serializer);
 
                 // Run the SignalR pipeline. We're not using MapSignalR
                 // since this branch is already runs under the "/signalr"
                 // path.
-                map.RunSignalR(hubConfiguration);
+                map.RunSignalR(config);
             });
 
             var webRoot = @"./wwwroot";

@@ -2,7 +2,7 @@
 
 namespace WillCorp.Logging
 {
-    public struct LogItem
+    public class LogItem
     {
         public LogLevel LogLevel { get; set; }
         public string Message { get; set; }

@@ -1,5 +1,9 @@
 ﻿namespace WillCorp.Logging
 {
+    /// <summary>
+    /// This class provides helper methods for the ILogger interface
+    /// which makes using the logger easier and more explicit
+    /// </summary>
     public static class LoggerExtensions
     {
         #region Error Methods

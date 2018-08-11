@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNet.SignalR;
 using StructureMap;
-using StructureMap.Graph;
 using StructureMap.Pipeline;
 using System;
 using System.Collections.Generic;
@@ -14,19 +13,7 @@ namespace WillCorp.App.Web.StructureMap
 {
     public static class Extensions
     {
-        public static void UseStructureMap(
-            this HttpConfiguration config,
-            Action<ConfigurationExpression> configuration)
-        {
-            config.DependencyResolver = new StructureMapWebApiDependencyResolver(
-                new Container(configuration));
-        }
-
-        public static void UseStructureMap(this HttpConfiguration config, PluginGraph graph)
-        {
-            config.DependencyResolver = new StructureMapWebApiDependencyResolver(new Container(graph));
-        }
-
+        #region StructureMap integration with Web Api 
         public static void UseStructureMap(this HttpConfiguration config, Registry registry)
         {
             config.DependencyResolver = new StructureMapWebApiDependencyResolver(new Container(registry));
@@ -37,23 +24,6 @@ namespace WillCorp.App.Web.StructureMap
         {
             config.UseStructureMap(new T());
         }
-
-        public static void UseStructureMap(this HttpConfiguration config, IContainer container)
-        {
-            config.DependencyResolver = new StructureMapWebApiDependencyResolver(container);
-        }
-
-        public static void UseStructureMap(this HubConfiguration config, Registry registry)
-        {
-            config.Resolver = new SignalRStructureMapResolver(new Container(registry));
-        }
-
-        public static void UseStructureMap<T>(this HubConfiguration config)
-            where T : Registry, new()
-        {
-            config.UseStructureMap(new T());
-        }
-
 
         public static T GetService<T>(this IDependencyScope scope)
         {
@@ -90,5 +60,19 @@ namespace WillCorp.App.Web.StructureMap
         {
             foreach (var item in source) action(item);
         }
+        #endregion
+
+        #region StructuteMap integration with SignalR
+        public static void UseStructureMap(this HubConfiguration config, Registry registry)
+        {
+            config.Resolver = new SignalRStructureMapResolver(new Container(registry));
+        }
+
+        public static void UseStructureMap<T>(this HubConfiguration config)
+            where T : Registry, new()
+        {
+            config.UseStructureMap(new T());
+        }
+        #endregion
     }
 }

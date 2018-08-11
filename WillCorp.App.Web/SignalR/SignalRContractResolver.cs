@@ -1,19 +1,17 @@
 ﻿using Newtonsoft.Json.Serialization;
 using System;
-using System.Reflection;
 
 namespace WillCorp.App.Web.SignalR
 {
+    /// <summary>
+    /// Convert property name to camelCase
+    /// </summary>
     public class SignalRContractResolver : IContractResolver
     {
-
-        private readonly Assembly assembly;
         private readonly IContractResolver camelCaseContractResolver;
-        private readonly IContractResolver defaultContractSerializer;
 
         public SignalRContractResolver()
         {
-            defaultContractSerializer = new DefaultContractResolver();
             camelCaseContractResolver = new CamelCasePropertyNamesContractResolver();
         }
 
@@ -21,6 +19,5 @@ namespace WillCorp.App.Web.SignalR
         {
             return camelCaseContractResolver.ResolveContract(type);
         }
-
     }
 }

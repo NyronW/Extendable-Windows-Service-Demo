@@ -5,11 +5,11 @@ using WillCorp.Logging;
 
 namespace WillCorp.App.Web.SignalR.Hubs
 {
-    public abstract class HubBase: Hub
+    public class NotificationHub: Hub<IFileNotificationClient>
     {
         protected readonly ILogger logger;
 
-        public HubBase(ILogger logger)
+        public NotificationHub(ILogger logger)
         {
             this.logger = logger;
         }
@@ -20,5 +20,21 @@ namespace WillCorp.App.Web.SignalR.Hubs
 
             return base.OnConnected();
         }
+
+        public Task Notify(FileNotification notification)
+        {
+            return Clients.All.Notify(notification);
+        }
+    }
+
+    public interface IFileNotificationClient
+    {
+        Task Notify(FileNotification notification);
+    }
+
+    public class FileNotification
+    {
+        public string FileName { get; set; }
+        public string Message { get; set; }
     }
 }

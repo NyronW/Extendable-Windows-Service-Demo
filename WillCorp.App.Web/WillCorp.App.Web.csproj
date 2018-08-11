@@ -97,7 +97,7 @@
     <Compile Include="Api\Models\Envelope.cs" />
     <Compile Include="Middleware\GlobalExceptionMiddleware.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SignalR\Hubs\HubBase.cs" />
+    <Compile Include="SignalR\Hubs\NotificationHub.cs" />
     <Compile Include="SignalR\SignalRContractResolver.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="StructureMap\DefaultRegistry.cs" />
