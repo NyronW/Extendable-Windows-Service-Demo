@@ -72,6 +72,7 @@
     <Reference Include="System.Net.Http.Formatting, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.6\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Web.Cors, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Cors.5.0.0\lib\net45\System.Web.Cors.dll</HintPath>
     </Reference>
@@ -91,8 +92,9 @@
   <ItemGroup>
     <Compile Include="Api\ActionResults\HttpActionResult.cs" />
     <Compile Include="Api\Controllers\BaseController.cs" />
-    <Compile Include="Api\Controllers\FilesController.cs" />
+    <Compile Include="Api\Controllers\TodosController.cs" />
     <Compile Include="Api\Controllers\GreetingsController.cs" />
+    <Compile Include="Api\Controllers\HubApiController.cs" />
     <Compile Include="Api\Handlers\GlobalExceptionHandler.cs" />
     <Compile Include="Api\Models\Envelope.cs" />
     <Compile Include="Middleware\GlobalExceptionMiddleware.cs" />
@@ -125,21 +127,20 @@
     <None Include="wwwroot\jquery\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\jquery-1.6.4-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.6.4.js" />
+    <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="wwwroot\bootstrap\bootstrap-grid.min.css" />
     <Content Include="wwwroot\bootstrap\bootstrap.bundle.min.js" />
     <Content Include="wwwroot\bootstrap\bootstrap.min.css" />
-    <Content Include="wwwroot\cq_custom.css" />
+    <Content Include="wwwroot\img\logo.png" />
     <Content Include="wwwroot\index.html" />
     <Content Include="wwwroot\jquery\jquery-3.3.1.min.js" />
     <Content Include="wwwroot\main.css" />
     <Content Include="wwwroot\main.js" />
-    <Content Include="wwwroot\root.css" />
+    <Content Include="wwwroot\signalr-client\jquery.signalR-2.3.0.min.js" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="wwwroot\img\" />
-    <Folder Include="wwwroot\knockout\" />
-    <Folder Include="wwwroot\signalr\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy /Y "$(TargetDir)*.dll" "$(SolutionDir)plugins\"

@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNet.SignalR;
 using System;
 using System.Threading.Tasks;
+using WillCorp.Core.Entity;
 using WillCorp.Logging;
 
 namespace WillCorp.App.Web.SignalR.Hubs
 {
-    public class NotificationHub: Hub<IFileNotificationClient>
+    public class NotificationHub: Hub<INotificationClient>
     {
         protected readonly ILogger logger;
 
@@ -21,20 +22,26 @@ namespace WillCorp.App.Web.SignalR.Hubs
             return base.OnConnected();
         }
 
-        public Task Notify(FileNotification notification)
+        public Task Notify(Notification notification)
         {
             return Clients.All.Notify(notification);
         }
     }
 
-    public interface IFileNotificationClient
+    public interface INotificationClient
     {
-        Task Notify(FileNotification notification);
+        Task Notify(Notification notification);
     }
 
-    public class FileNotification
+    public class Notification
     {
-        public string FileName { get; set; }
+        public Notification(Todo todo,string message)
+        {
+            Todo = todo;
+            Message = message;
+        }
+
+        public Todo Todo { get; }
         public string Message { get; set; }
     }
 }

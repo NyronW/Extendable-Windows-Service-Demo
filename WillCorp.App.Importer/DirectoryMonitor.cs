@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using WillCorp.Configuration;
-using WillCorp.Core.FileSystem;
 using WillCorp.Logging;
 
 namespace WillCorp.App.Importer
@@ -10,12 +13,12 @@ namespace WillCorp.App.Importer
     public class DirectoryMonitor
     {
         private readonly ILogger _logger;
-        private readonly IEnumerable<FileTransformationBase> _transformations;
         private readonly string _directory;
+        private readonly HttpClient _client;
 
         private FileSystemWatcher _watcher;
 
-        public DirectoryMonitor(ILogger logger, IConfigurationRepository configuration, IEnumerable<FileTransformationBase> transformations, string directory)
+        public DirectoryMonitor(ILogger logger, string endpoint, string directory)
         {
             if (string.IsNullOrEmpty(directory) || !Directory.Exists(Path.GetFullPath(directory)))
             {
@@ -23,9 +26,22 @@ namespace WillCorp.App.Importer
                 return;
             }
 
+            if (string.IsNullOrEmpty(endpoint))
+            {
+                logger.Warn("Invalid web api endpoint");
+                return;
+            }
+
             _logger = logger;
-            _transformations = transformations;
             _directory = Path.GetFullPath(directory);
+
+            _client = new HttpClient
+            {
+                BaseAddress = new Uri(endpoint)
+            };
+            _client.DefaultRequestHeaders.Accept.Clear();
+            _client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
 
             _watcher = new FileSystemWatcher(_directory, "*.txt")
             {
@@ -36,11 +52,12 @@ namespace WillCorp.App.Importer
                 var fileName = Path.GetFileName(e.FullPath);
                 _logger.Debug("Processing {fileName}", fileName);
 
-                var path = e.FullPath;
+                var todos = File.ReadAllLines(e.FullPath);
+                if (!todos.Any()) return;
 
-                foreach (var transformation in _transformations)
+                foreach (var todo in todos)
                 {
-                    path = transformation.Process(path);
+                    AddTodo(todo).Wait();
                 }
             };
             _watcher.Error += (object sender, ErrorEventArgs e) =>
@@ -53,6 +70,18 @@ namespace WillCorp.App.Importer
                     _logger.Error(ex.InnerException);
                 }
             };
+        }
+
+        private async Task AddTodo(string todo)
+        {
+            var response = await _client.PostAsync(
+                    "api/todos", new StringContent(todo));
+            response.EnsureSuccessStatusCode();
+
+            // return URI of the created resource.
+             var url = response.Headers.Location;
+
+            _logger.Information("Todo created at {url}", url);
         }
 
         public void Start()

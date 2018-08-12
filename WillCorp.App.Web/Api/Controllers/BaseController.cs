@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Web.Http;
 using WillCorp.App.Web.Api.ActionResults;
@@ -32,20 +31,6 @@ namespace WillCorp.App.Web.Api.Controllers
         protected IHttpActionResult Error(string errorMessage)
         {
             return new HttpActionResult<Envelope>(HttpStatusCode.BadRequest, Envelope.Error(errorMessage));
-        }
-
-        protected IHttpActionResult Error(Result[] entries)
-        {
-            var messages = new List<string>();
-            foreach (var entry in entries)
-            {
-                if (entry.Success)
-                    continue;
-
-                messages.Add(entry.Error);
-            }
-
-            return new HttpActionResult<Envelope>(HttpStatusCode.BadRequest, Envelope.Error(messages));
         }
 
         protected new IHttpActionResult InternalServerError(Exception exception)

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using WillCorp.Configuration;
-using WillCorp.Core.FileSystem;
+﻿using WillCorp.Configuration;
 using WillCorp.Logging;
 
 namespace WillCorp.App.Importer
@@ -12,14 +10,17 @@ namespace WillCorp.App.Importer
         private readonly DirectoryMonitor _directoryMonitor;
 
         private string _directory;
+        private string _endpoint;
 
-        public ImporterModule(ILogger logger, IConfigurationRepository configuration, IEnumerable<FileTransformationBase> transformations)
+        public ImporterModule(ILogger logger, IConfigurationRepository configuration)
         {
             _logger = logger;
             _configuration = configuration;
 
             _directory = configuration.GetConfigurationValue(ConfigurationKeys.ImportDirectory, string.Empty);
-            _directoryMonitor = new DirectoryMonitor(_logger, _configuration, transformations, _directory);
+            _endpoint = configuration.GetConfigurationValue(ConfigurationKeys.WebEndpoint, string.Empty);
+
+            _directoryMonitor = new DirectoryMonitor(_logger, _endpoint, _directory);
         }
 
         protected override bool OnStart()

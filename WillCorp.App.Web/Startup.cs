@@ -34,7 +34,7 @@ namespace WillCorp.App.Web
                 //
                 var config = new HttpConfiguration();
 
-                config.UseStructureMap<DefaultRegistry>();
+                config.UseStructureMap(WebModule.Container);
 
                 // Use attribute routing
                 //
@@ -78,7 +78,7 @@ namespace WillCorp.App.Web
                     EnableJSONP = true
                 };
 
-                config.UseStructureMap<DefaultRegistry>();
+                config.UseStructureMap(WebModule.Container);
 
                 // camelcase contract resolver
                 var serializer = JsonSerializer.Create(new JsonSerializerSettings

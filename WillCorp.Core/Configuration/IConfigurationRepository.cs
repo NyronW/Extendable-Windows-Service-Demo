@@ -11,5 +11,6 @@
     public static class ConfigurationKeys
     {
         public static string ImportDirectory = "import:pickup-directory";
+        public static string WebEndpoint = "web:endpoint";
     }
 }

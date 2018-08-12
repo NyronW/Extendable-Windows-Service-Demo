@@ -17,18 +17,13 @@ namespace WillCorp.App.Web.StructureMap
 
         public override object GetService(Type serviceType)
         {
-            object service;
-            if (!serviceType.IsAbstract && !serviceType.IsInterface && serviceType.IsClass)
-            {
-                // Concrete type resolution
-                service = _container.GetInstance(serviceType);
-            }
-            else
-            {
-                // Other type resolution with base fallback
-                service = _container.TryGetInstance(serviceType) ?? base.GetService(serviceType);
-            }
-            return service;
+            if (serviceType == null) return null;
+
+            var service = base.GetService(serviceType);
+            if (service != null) return service;
+
+            return (!serviceType.IsAbstract && !serviceType.IsInterface && serviceType.IsClass) ? 
+                _container.GetInstance(serviceType) : _container.TryGetInstance(serviceType);
         }
 
         public override IEnumerable<object> GetServices(Type serviceType)

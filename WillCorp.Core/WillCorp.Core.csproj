@@ -45,8 +45,7 @@
     <Compile Include="App\ServiceModuleStatus.cs" />
     <Compile Include="Configuration\IConfigurationRepository.cs" />
     <Compile Include="Contracts.cs" />
-    <Compile Include="FileSystem\FileTransformationBase.cs" />
-    <Compile Include="FileSystem\ImportFile.cs" />
+    <Compile Include="Entity\Todo.cs" />
     <Compile Include="IServicePlugin.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Logging\LoggerExtensions.cs" />

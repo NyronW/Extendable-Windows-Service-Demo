@@ -14,15 +14,9 @@ namespace WillCorp.App.Web.StructureMap
     public static class Extensions
     {
         #region StructureMap integration with Web Api 
-        public static void UseStructureMap(this HttpConfiguration config, Registry registry)
+        public static void UseStructureMap(this HttpConfiguration config, IContainer container)
         {
-            config.DependencyResolver = new StructureMapWebApiDependencyResolver(new Container(registry));
-        }
-
-        public static void UseStructureMap<T>(this HttpConfiguration config)
-            where T : Registry, new()
-        {
-            config.UseStructureMap(new T());
+            config.DependencyResolver = new StructureMapWebApiDependencyResolver(container);
         }
 
         public static T GetService<T>(this IDependencyScope scope)
@@ -63,15 +57,9 @@ namespace WillCorp.App.Web.StructureMap
         #endregion
 
         #region StructuteMap integration with SignalR
-        public static void UseStructureMap(this HubConfiguration config, Registry registry)
+        public static void UseStructureMap(this HubConfiguration config, IContainer container)
         {
-            config.Resolver = new SignalRStructureMapResolver(new Container(registry));
-        }
-
-        public static void UseStructureMap<T>(this HubConfiguration config)
-            where T : Registry, new()
-        {
-            config.UseStructureMap(new T());
+            config.Resolver = new SignalRStructureMapResolver(container);
         }
         #endregion
     }

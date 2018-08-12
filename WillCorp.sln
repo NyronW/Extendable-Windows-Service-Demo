@@ -29,8 +29,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WillCorp.App.Importer", "Wi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WillCorp.App.Web", "WillCorp.App.Web\WillCorp.App.Web.csproj", "{9809246D-90B4-4F4F-95C6-0378B9E789C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WillCorp.Services.FileSystem", "WillCorp.Services.FileSystem\WillCorp.Services.FileSystem.csproj", "{9404C0C3-430F-4179-A75B-535E6E6710C2}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EmailTemplates", "EmailTemplates", "{0663F1A9-AC74-4373-B2A6-2B92A1B2A7CD}"
 	ProjectSection(SolutionItems) = preProject
 		email.templates\sample.html = email.templates\sample.html
@@ -78,10 +76,6 @@ Global
 		{9809246D-90B4-4F4F-95C6-0378B9E789C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9809246D-90B4-4F4F-95C6-0378B9E789C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9809246D-90B4-4F4F-95C6-0378B9E789C9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9404C0C3-430F-4179-A75B-535E6E6710C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9404C0C3-430F-4179-A75B-535E6E6710C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9404C0C3-430F-4179-A75B-535E6E6710C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9404C0C3-430F-4179-A75B-535E6E6710C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,7 +91,6 @@ Global
 		{419F297A-8E4B-414C-B250-2CD275F365D4} = {DCF70D49-45EC-4F55-8E10-F8AB648EDF9C}
 		{B8AB120B-FB69-4BBE-AD55-EE804EACC2FD} = {35929675-8A04-4D4F-A825-84A4FC746709}
 		{9809246D-90B4-4F4F-95C6-0378B9E789C9} = {35929675-8A04-4D4F-A825-84A4FC746709}
-		{9404C0C3-430F-4179-A75B-535E6E6710C2} = {DCF70D49-45EC-4F55-8E10-F8AB648EDF9C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BCB6B99B-33F9-431B-8A2E-AC38321656FB}
