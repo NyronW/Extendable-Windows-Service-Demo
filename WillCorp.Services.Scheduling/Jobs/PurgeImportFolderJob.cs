@@ -8,11 +8,12 @@ using WillCorp.Scheduling;
 
 namespace WillCorp.Services.Scheduling.Jobs
 {
-    public class PurgeImportFolderJob : JobBase
+    [DisallowConcurrentExecution]
+    public class PurgeImportFolderJob : JobBase, IServicePlugin
     {
         private readonly IConfigurationRepository _configuration;
 
-        protected PurgeImportFolderJob(ITriggerFactory<ITrigger> triggerFactory, ILogger logger, IConfigurationRepository configuration) : base(triggerFactory, logger)
+        public PurgeImportFolderJob(ITriggerFactory<ITrigger> triggerFactory, ILogger logger, IConfigurationRepository configuration) : base(triggerFactory, logger)
         {
             _configuration = configuration;
         }

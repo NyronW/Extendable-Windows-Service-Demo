@@ -13,7 +13,9 @@ namespace WillCorp.App.Web
 
         private IDisposable _server;
         private string _baseAddress;
+
         private static IContainer _container { get; set; }
+        public static IContainer Container => _container;
 
         public WebModule(ILogger logger, IContainer container, IConfigurationRepository configuration)
         {
@@ -24,7 +26,6 @@ namespace WillCorp.App.Web
             _baseAddress = _configuration.GetConfigurationValue("web:endpoint", "");
         }
 
-        public static IContainer Container => _container;
 
         protected override bool OnStart()
         {

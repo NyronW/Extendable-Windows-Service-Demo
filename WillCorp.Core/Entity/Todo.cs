@@ -21,14 +21,15 @@ namespace WillCorp.Core.Entity
         public string Description { get; }
         public Completed Completed { get; private set; }
 
-        public Result MarkAsCompleted(string user)
+        public Result MarkAsCompleted()
         {
             if (Completed != null) return Result.Fail("Task already completed");
-            if(string.IsNullOrEmpty(user)) return Result.Fail("Invalid user");
 
-            Completed = new Completed(user, DateTime.Now);
+            Completed = new Completed(DateTime.Now);
             return Result.Ok();
         }
+
+        public bool IsCompleted => Completed != null;
 
         private static string GenerateId()
         {
@@ -45,16 +46,14 @@ namespace WillCorp.Core.Entity
 
     public class Completed
     {
-        public Completed(string user, DateTime date)
+        public Completed(DateTime date)
         {
-            Contracts.Require(!string.IsNullOrWhiteSpace(user), "Description is required");
             Contracts.Require(date != null, "Date is required");
+            Contracts.Require(date <= DateTime.Now, "Completed date cannot be in the future");
 
-            User = user;
             Date = date;
         }
 
-        public string User { get; }
         public DateTime Date { get; }
     }
 }

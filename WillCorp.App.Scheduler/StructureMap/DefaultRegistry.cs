@@ -4,6 +4,7 @@ using Quartz.Impl;
 using Quartz.Spi;
 using StructureMap;
 using System.Collections.Specialized;
+using WillCorp.Logging;
 
 namespace WillCorp.App.Scheduler.StructureMap
 {
@@ -22,7 +23,7 @@ namespace WillCorp.App.Scheduler.StructureMap
                 x.AddAllTypesOf<IScheduledJob>();
             });
 
-            For<IJobFactory>().Use(c => new StructureMapJobFactory(c)).Singleton();
+            For<IJobFactory>().Use(c => new StructureMapJobFactory(c.GetInstance<ILogger>(), c.GetInstance<IContainer>())).Singleton();
             For<ISchedulerFactory>().Use(c => BuildFactory(c)).Singleton();
             For<IScheduler>().Use(c => BuildScheduler(c)).Singleton();
         }

@@ -13,6 +13,7 @@ using Microsoft.Owin.StaticFiles;
 using System.Configuration;
 using System.IO;
 using WillCorp.App.Web.SignalR;
+using WillCorp.Logging;
 
 namespace WillCorp.App.Web
 {
@@ -20,12 +21,6 @@ namespace WillCorp.App.Web
     {
         public void Configuration(IAppBuilder appBuilder)
         {
-            // Setup the cors middleware to run before other pipeline entries.
-            // By default this will allow all origins. You can 
-            // configure the set of origins and/or http verbs by
-            // providing a cors options with a different policy.
-            appBuilder.UseCors(CorsOptions.AllowAll);
-
             appBuilder.Use<GlobalExceptionMiddleware>();
 
             appBuilder.Map("/api", api =>
@@ -36,10 +31,12 @@ namespace WillCorp.App.Web
 
                 config.UseStructureMap(WebModule.Container);
 
+                var resolver = config.DependencyResolver;
                 // Use attribute routing
                 //
                 config.MapHttpAttributeRoutes();
 
+                config.MessageHandlers.Add(new ApiLogHandler(resolver.GetService<ILogger>()));
                 config.Services.Replace(typeof(IExceptionHandler), new GlobalExceptionHandler());
 
                 // clear the supported mediatypes of the xml formatter
@@ -67,6 +64,12 @@ namespace WillCorp.App.Web
 
             appBuilder.Map("/signalr", map =>
             {
+                // Setup the CORS middleware to run before SignalR.
+                // By default this will allow all origins. You can 
+                // configure the set of origins and/or http verbs by
+                // providing a cors options with a different policy.
+                map.UseCors(CorsOptions.AllowAll);
+
                 var config = new HubConfiguration
                 {
                     // You can enable JSONP by uncommenting line below.
@@ -74,8 +77,7 @@ namespace WillCorp.App.Web
                     // versions of IE) require JSONP to work cross domain
                     // EnableJSONP = true
                     EnableDetailedErrors = true,
-                    EnableJavaScriptProxies = true,
-                    EnableJSONP = true
+                    EnableJavaScriptProxies = true
                 };
 
                 config.UseStructureMap(WebModule.Container);
@@ -87,6 +89,8 @@ namespace WillCorp.App.Web
                 });
 
                 config.Resolver.Register(typeof(JsonSerializer), () => serializer);
+
+                GlobalHost.DependencyResolver = config.Resolver;
 
                 // Run the SignalR pipeline. We're not using MapSignalR
                 // since this branch is already runs under the "/signalr"

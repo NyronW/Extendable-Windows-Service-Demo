@@ -35,7 +35,7 @@ namespace WillCorp.Services.Scheduling
 
             var trigger = TriggerBuilder.Create()
                 .ForJob(jobId, groupId)
-                .WithIdentity(jobId, groupId)
+                .WithIdentity($"{jobId}-Trigger", groupId)
                 .WithCronSchedule(cronExpression.Trim(), x => x
                     .WithMisfireHandlingInstructionFireAndProceed())
                 .Build();

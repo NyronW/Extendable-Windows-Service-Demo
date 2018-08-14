@@ -19,12 +19,16 @@ namespace WillCorp.App.Scheduler
         private readonly IEnumerable<IScheduledJob> _jobs;
         private readonly ITriggerFactory<ITrigger> _factory;
 
+        private static IContainer _container { get; set; }
+        public static IContainer Container => _container;
+
         public SchedulerModule(ILogger logger, IScheduler scheduler, IEnumerable<IScheduledJob> jobs, ITriggerFactory<ITrigger> factory, IContainer container)
         {
             _logger = logger;
             _scheduler = scheduler;
             _jobs = jobs;
             _factory = factory;
+            _container = container;
 
             _cancel = new CancellationTokenSource();
             LogProvider.SetCurrentLogProvider(new CustomLogProvider(container));
@@ -55,14 +59,13 @@ namespace WillCorp.App.Scheduler
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                if (_status == ServiceModuleStatus.Started) continue;
+                if (_scheduler.IsStarted) continue;
+
+                var jobCount = 0;
 
                 try
                 {
-                    if (!_scheduler.IsStarted)
-                        await _scheduler.Start();
-
-                    var jobCount = 0;
+                    await _scheduler.Start();
 
                     foreach (var job in _jobs)
                     {

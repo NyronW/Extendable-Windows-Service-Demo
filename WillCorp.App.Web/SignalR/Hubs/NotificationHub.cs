@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNet.SignalR;
-using System;
 using System.Threading.Tasks;
+using WillCorp.App.Web.Model;
 using WillCorp.Core.Entity;
 using WillCorp.Logging;
 
@@ -8,40 +8,46 @@ namespace WillCorp.App.Web.SignalR.Hubs
 {
     public class NotificationHub: Hub<INotificationClient>
     {
-        protected readonly ILogger logger;
+        protected readonly ILogger _logger;
+        private readonly TodoDataStore _store;
 
-        public NotificationHub(ILogger logger)
+        public NotificationHub(ILogger logger, TodoDataStore store)
         {
-            this.logger = logger;
+            _logger = logger;
+            _store = store;
         }
 
         public override Task OnConnected()
         {
-            logger.Information("[{0}] Client '{1}' connected.", DateTime.Now.ToString("dd-mm-yyyy hh:MM:ss"), Context.ConnectionId);
+            _logger.Information("Client '{ConnectionId}' connected.", Context.ConnectionId);
+
+            Clients.Client(Context.ConnectionId).notifyUser($"Connection suceeded, your connection id is: {Context.ConnectionId}");
 
             return base.OnConnected();
         }
 
-        public Task Notify(Notification notification)
+        public override Task OnDisconnected(bool stopCalled)
         {
-            return Clients.All.Notify(notification);
+            _logger.Information("Client '{ConnectionId}' disconnected.", Context.ConnectionId);
+
+            return base.OnDisconnected(stopCalled);
+        }
+
+        public void MarkAsDone(TodoModel model)
+        {
+           var result =  _store.Update(model);
+
+            if(result.Success)
+            {
+                Clients.Others.markAsDone(model.Id, model.Completed);
+            }
         }
     }
 
     public interface INotificationClient
     {
-        Task Notify(Notification notification);
-    }
-
-    public class Notification
-    {
-        public Notification(Todo todo,string message)
-        {
-            Todo = todo;
-            Message = message;
-        }
-
-        public Todo Todo { get; }
-        public string Message { get; set; }
+        Task addTodo(Todo todo);
+        Task markAsDone(string todoId, bool completed);
+        Task notifyUser(string message);
     }
 }

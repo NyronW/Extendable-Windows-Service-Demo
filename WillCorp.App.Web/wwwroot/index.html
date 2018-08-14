@@ -35,29 +35,7 @@
                     <button id="checkAll" class="btn btn-success">Mark all as done</button>
 
                     <hr>
-                    <ul id="sortable" class="list-unstyled">
-                        <li class="ui-state-default">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="" />Take out the trash
-                                </label>
-                            </div>
-                        </li>
-                        <li class="ui-state-default">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="" />Buy bread
-                                </label>
-                            </div>
-                        </li>
-                        <li class="ui-state-default">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="" />Teach penguins to fly
-                                </label>
-                            </div>
-                        </li>
-                    </ul>
+                    <ul id="sortable" class="list-unstyled"></ul>
                     <div class="todo-footer">
                         <strong><span class="count-todos"></span></strong> Items
                     </div>
@@ -66,6 +44,26 @@
         </div>
     </main>
 
+
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Confirm</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="modal-text"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="modal-btn-ok">Ok, Got It</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script type="text/javascript" src="jquery/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="bootstrap/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="signalr-client/jquery.signalR-2.3.0.min.js"></script>
@@ -73,18 +71,93 @@
     <script src="main.js"></script>
     <script type="text/javascript">
         $(function () {
-            $.connection.hub.logging = true;
 
             var todoHub = $.connection.notificationHub;
-            todoHub.client.notify = function (todo) {
-                console.log(todo);
+            todoHub.client.addTodo = function (todo) {
+                createTodo(todo);
+                countTodos();
+            };
+            todoHub.client.markAsDone = function (todoId, completed) {
+                $("#" + todoId).prop("checked", completed);
+                countTodos();
+            };
+            todoHub.client.notifyUser = function (message) {
+                modalDialog.show(message);
             };
 
+            $.connection.hub.logging = true;
             $.connection.hub.start().done(function () {
-                console.log("Connection Started");
+
+                $.getJSON("api/todos").done(function (resp) {
+                    if (resp.errorMessages.length != 0) {
+                        alert("Unexpected error occured");
+                        return;
+                    }
+
+                    var items = resp.result;
+
+                    for (var i = 0; i < items.length; i++) {
+                        var todo = items[i];
+                        createTodo(todo);
+                    }
+
+                    countTodos();
+                });
+
             }).fail(function (reason) {
                 console.log("SignalR connection failed: " + reason);
             });
+
+            //create todo
+            $('.add-todo').on('keypress', function (e) {
+                e.preventDefault;
+
+                if (e.which == 13) {
+                    if ($(this).val() != '') {
+                        var text = $(this).val();
+
+                        $.post("api/todos", { "": text }, function (resp) {
+                            if (resp.errorMessages.length != 0) {
+                                modalDialog.show("Unexpected error occured");
+                                return;
+                            }
+                        }).always(function () {
+                            $(this).val('');
+                        });
+
+                    } else {
+                        // some validation
+                        alert("Enter todo description")
+                    }
+                }
+            });
+
+            // toggle done
+            $('.todolist').on('change', '#sortable li input[type="checkbox"]', function () {
+                var completed = $(this).prop('checked');
+                var id = $(this).prop('id');
+
+                var data = { id: id, completed: completed };
+                todoHub.server.markAsDone(data);
+            });
+
+            // all done btn
+            $("#checkAll").click(function () {
+
+            });
+
+            // count tasks
+            function countTodos() {
+                var count = $("#sortable li").length;
+                $('.count-todos').html(count);
+            }
+
+            //create task
+            function createTodo(todo) {
+                var markup = '<li class="ui-state-default"><div class="checkbox"><label><input type="checkbox" value="" id="' + todo.id + '" ' + (todo.isCompleted ? 'checked' : '')+ '  />' + todo.description + '</label></div></li>';
+                $('#sortable').append(markup);
+            }
+
         })
     </script>
 </body>

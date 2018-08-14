@@ -52,12 +52,29 @@ namespace WillCorp.App.Importer
                 var fileName = Path.GetFileName(e.FullPath);
                 _logger.Debug("Processing {fileName}", fileName);
 
-                var todos = File.ReadAllLines(e.FullPath);
-                if (!todos.Any()) return;
-
-                foreach (var todo in todos)
+                using (_logger.AddContext("ImportedFileName", fileName))
                 {
-                    AddTodo(todo).Wait();
+                    try
+                    {
+                        var todos = File.ReadAllLines(e.FullPath);
+                        if (!todos.Any()) return;
+
+                        foreach (var todo in todos)
+                        {
+                            try
+                            {
+                                AddTodo(todo).Wait();
+                            }
+                            catch
+                            {
+                                throw;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.Error(ex);
+                    }
                 }
             };
             _watcher.Error += (object sender, ErrorEventArgs e) =>
@@ -74,12 +91,18 @@ namespace WillCorp.App.Importer
 
         private async Task AddTodo(string todo)
         {
+            var content = new FormUrlEncodedContent(new []
+            {
+                new KeyValuePair<string, string>("", todo)
+            });
+
             var response = await _client.PostAsync(
-                    "api/todos", new StringContent(todo));
+                    "api/todos", content);
+
             response.EnsureSuccessStatusCode();
 
             // return URI of the created resource.
-             var url = response.Headers.Location;
+            var url = response.Headers.Location;
 
             _logger.Information("Todo created at {url}", url);
         }

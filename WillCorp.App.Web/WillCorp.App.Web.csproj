@@ -95,9 +95,12 @@
     <Compile Include="Api\Controllers\TodosController.cs" />
     <Compile Include="Api\Controllers\GreetingsController.cs" />
     <Compile Include="Api\Controllers\HubApiController.cs" />
+    <Compile Include="Api\Handlers\ApiLogHandler.cs" />
     <Compile Include="Api\Handlers\GlobalExceptionHandler.cs" />
     <Compile Include="Api\Models\Envelope.cs" />
+    <Compile Include="Model\TodoModel.cs" />
     <Compile Include="Middleware\GlobalExceptionMiddleware.cs" />
+    <Compile Include="Model\TodoDataStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SignalR\Hubs\NotificationHub.cs" />
     <Compile Include="SignalR\SignalRContractResolver.cs" />
