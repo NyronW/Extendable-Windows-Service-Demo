@@ -31,14 +31,13 @@ namespace WillCorp.Core.Entity
 
         public bool IsCompleted => Completed != null;
 
-        private static string GenerateId()
+        private string GenerateId()
         {
-            var id = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Replace("==", "");
+            var id = Convert.ToBase64String(Guid.NewGuid().ToByteArray())
+                .Replace("==", "");
 
-            if (id.Contains("/"))
-            {
-                id = id.Replace("/", "");
-            }
+            if (id.Contains("/")) id = id.Replace("/", "");
+            if (id.Contains("+")) id = id.Replace("+", "");
 
             return id;
         }

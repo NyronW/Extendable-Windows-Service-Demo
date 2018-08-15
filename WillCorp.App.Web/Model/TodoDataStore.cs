@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using WillCorp.Core.Entity;
@@ -51,6 +52,30 @@ namespace WillCorp.App.Web.Model
             }
             else
                 return Result.Fail<Todo>("Item not created");
+        }
+
+        public Result SetAllToCompleted()
+        {
+            try
+            {
+                foreach (var todo in todoItems.Values)
+                {
+                    var newTodo = new Todo(todo.Id, todo.Description, todo.Completed);
+                    if (newTodo.IsCompleted) continue;
+
+                    var result = newTodo.MarkAsCompleted();
+                    if (result.Failure) continue;
+
+                    todoItems.TryUpdate(todo.Id, newTodo, todo);
+                }
+
+                return Result.Ok();
+            }
+            catch
+            {
+
+                return Result.Fail("Error occured while updating one or more items");
+            }
         }
     }
 }

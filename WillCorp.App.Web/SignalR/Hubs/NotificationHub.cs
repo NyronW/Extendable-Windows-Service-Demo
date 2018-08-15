@@ -42,6 +42,16 @@ namespace WillCorp.App.Web.SignalR.Hubs
                 Clients.Others.markAsDone(model.Id, model.Completed);
             }
         }
+
+        public void MarkAllAsDone()
+        {
+            var result = _store.SetAllToCompleted();
+
+            if (result.Success)
+            {
+                Clients.Others.markAllAsDone();
+            }
+        }
     }
 
     public interface INotificationClient
@@ -49,5 +59,6 @@ namespace WillCorp.App.Web.SignalR.Hubs
         Task addTodo(Todo todo);
         Task markAsDone(string todoId, bool completed);
         Task notifyUser(string message);
+        Task markAllAsDone();
     }
 }

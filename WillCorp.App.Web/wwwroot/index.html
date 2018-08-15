@@ -84,6 +84,11 @@
             todoHub.client.notifyUser = function (message) {
                 modalDialog.show(message);
             };
+            todoHub.client.markAllAsDone = function () {
+                $('#sortable li input[type="checkbox"]').each(function () {
+                    $(this).prop("checked", true);
+                });
+            };
 
             $.connection.hub.logging = true;
             $.connection.hub.start().done(function () {
@@ -114,7 +119,8 @@
 
                 if (e.which == 13) {
                     if ($(this).val() != '') {
-                        var text = $(this).val();
+                        var $this = $(this);
+                        var text = $this.val();
 
                         $.post("api/todos", { "": text }, function (resp) {
                             if (resp.errorMessages.length != 0) {
@@ -122,7 +128,7 @@
                                 return;
                             }
                         }).always(function () {
-                            $(this).val('');
+                            $this.val('');
                         });
 
                     } else {
@@ -143,7 +149,13 @@
 
             // all done btn
             $("#checkAll").click(function () {
+                todoHub.server.markAllAsDone().done(function () {
 
+                    $('#sortable li input[type="checkbox"]').each(function () {
+                        $(this).prop("checked", true);
+                    });
+
+                });
             });
 
             // count tasks
